@@ -14,6 +14,14 @@ import java.util.List;
 public class JsonUtils {
 
     private static final String TAG = JsonUtils.class.getSimpleName();
+    private static final String NAME = "name";
+    private static final String MAIN_NAME = "mainName";
+    private static final String IMAGE = "image";
+    private static final String ALSO_KNOWN_AS = "alsoKnownAs";
+    private static final String INGREDIENTS = "ingredients";
+    private static final String ORIGIN = "placeOfOrigin";
+    private static final String DESCRIPTION = "description";
+
 
     public static Sandwich parseSandwichJson(String json) {
 
@@ -22,15 +30,15 @@ public class JsonUtils {
         try {
             JSONObject sandwichDetails = new JSONObject(json);
 
-            JSONObject name = sandwichDetails.getJSONObject("name");
-            String mainName = name.getString("mainName");
+            JSONObject name = sandwichDetails.getJSONObject(NAME);
+            String mainName = name.getString(MAIN_NAME);
             sandwich.setMainName(mainName);
             Log.i(TAG, sandwich.getMainName());
 
-            String image = sandwichDetails.getString("image");
+            String image = sandwichDetails.getString(IMAGE);
             sandwich.setImage(image);
 
-            JSONArray jsonKnownAs = name.getJSONArray("alsoKnownAs");
+            JSONArray jsonKnownAs = name.getJSONArray(ALSO_KNOWN_AS);
                 List<String> alsoKnownAs = new ArrayList<>();
                 for (int i = 0; i < jsonKnownAs.length(); i++) {
                     alsoKnownAs.add(jsonKnownAs.optString(i));
@@ -38,7 +46,7 @@ public class JsonUtils {
                 }
                 sandwich.setAlsoKnownAs(alsoKnownAs);
 
-            JSONArray jsonIngredients = sandwichDetails.getJSONArray("ingredients");
+            JSONArray jsonIngredients = sandwichDetails.getJSONArray(INGREDIENTS);
                 List<String> ingredients = new ArrayList<>();
                 for (int i = 0; i < jsonIngredients.length(); i++) {
                     ingredients.add(jsonIngredients.optString(i));
@@ -46,10 +54,10 @@ public class JsonUtils {
                 }
                 sandwich.setIngredients(ingredients);
 
-            String placeOfOrigin = sandwichDetails.getString("placeOfOrigin");
+            String placeOfOrigin = sandwichDetails.getString(ORIGIN);
             sandwich.setPlaceOfOrigin(placeOfOrigin);
 
-            String description = sandwichDetails.getString("description");
+            String description = sandwichDetails.getString(DESCRIPTION);
             sandwich.setDescription(description);
 
         } catch (JSONException e) {
